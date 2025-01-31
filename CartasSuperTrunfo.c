@@ -81,7 +81,21 @@ Pais cadastroDePais(){                            // Não requer parametros pois
 }
 
 //função de exibir os dados
-
+void exibirDados(Pais *paisess, int numPaises){
+    for (int i=0; i < numPaises; i++){
+        printf("\nPaís: %s\n", paisess[i].name);
+        for (int j=0; j < 8; j++){
+            printf("  Estado: %s\n", paisess[i].estados[j].name);
+            for (int k; k < 4; k++){
+                printf("    Cidade: %s\n", paisess[i].estados[j].cidades[k].name);
+                printf("       População: %d\n", paisess[i].estados[j].cidades[k].populacao);
+                printf("       Área: %d\n", paisess[i].estados[j].cidades[k].area);
+                printf("       PIB: %d\n", paisess[i].estados[j].cidades[k].pib);
+                printf("       Número de pontos turísticos: %d\n", paisess[i].estados[j].cidades[k].numeroPontoTuristico);
+            }
+        }
+    }
+}
 
 
 int main() {
@@ -99,7 +113,12 @@ int main() {
     for (int i = 0; i < numPaises; i++) {
         paises[i] = cadastroDePais();
     }
-    
+
+    // Exibir os dados dos países
+    exibirDados(paises, numPaises);
+
+
+
     // Sugestão: Defina variáveis separadas para cada atributo da cidade.
     // Exemplos de atributos: código da cidade, nome, população, área, PIB, número de pontos turísticos.
     
