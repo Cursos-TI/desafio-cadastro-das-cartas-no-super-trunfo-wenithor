@@ -54,22 +54,25 @@ Pais cadastroDePais(){                            // Não requer parametros pois
 
         // Loop para adicionar as cidades
         for (int j=0; j<4; j++) {
-            printf("\nDigite o nome da Cidade %d pertencente ao Estado %s", j + 1, pais.estados[i].name);
+            printf("\nDigite o nome da Cidade %d pertencente ao Estado %s: ", j + 1, pais.estados[i].name);
             fgets(pais.estados[i].cidades[j].name, sizeof(pais.estados[i].cidades[j].name), stdin);
             removerOEnter(pais.estados[i].cidades[j].name);
 
-            printf("\nDigite o número populacional pertencente da Cidade %s do Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i]);
-            fgets(pais.estados[i].cidades[j].populacao, sizeof(pais.estados[i].cidades[j].populacao), stdin);
+            printf("\nDigite o número populacional pertencente da Cidade %s do Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i].name);
+            scanf("%d", &pais.estados[i].cidades[j].populacao); //, sizeof(pais.estados[i].cidades[j].populacao), stdin);
+            getchar();
 
-            printf("\nDigite a área da Cidade %s pertencente ao Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i]);
-            fgets(pais.estados[i].cidades[j].area, sizeof(pais.estados[i].cidades[j].area), stdin);
+            printf("\nDigite a área da Cidade %s pertencente ao Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i].name);
+            scanf("%d", &pais.estados[i].cidades[j].area); //, sizeof(pais.estados[i].cidades[j].area), stdin);
+            getchar();
 
-            printf("\nDigite o PIB da Cidade %s pertencente ao Estado %s: ", pais.estados[i].cidades[j], pais.estados[i]);
-            fgets(pais.estados[i].cidades[j].pib, sizeof(pais.estados[i].cidades[j].pib), stdin);
+            printf("\nDigite o PIB da Cidade %s pertencente ao Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i].name);
+            scanf("%d", &pais.estados[i].cidades[j].pib); //, sizeof(pais.estados[i].cidades[j].pib), stdin);
+            getchar();
 
-            printf("\nDigite o número de pontos turísticos da Cidade %s pertencente ao Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i]);
-            fgets(pais.estados[i].cidades[j].numeroPontoTuristico, sizeof(pais.estados[i].cidades[j].numeroPontoTuristico), stdin);
-
+            printf("\nDigite o número de pontos turísticos da Cidade %s pertencente ao Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i].name);
+            scanf("%d", &pais.estados[i].cidades[j].numeroPontoTuristico); //, sizeof(pais.estados[i].cidades[j].numeroPontoTuristico), stdin);
+            getchar();
 
         }
 
@@ -77,11 +80,26 @@ Pais cadastroDePais(){                            // Não requer parametros pois
     return pais;
 }
 
-
+//função de exibir os dados
 
 
 
 int main() {
+    int numPaises;
+
+    // Solicitar ao usuário o número de países
+    printf("Quantos países deseja cadastrar? ");
+    scanf("%d", &numPaises);
+    getchar(); // liberar o buffer do teclado antes de entrar o fgets
+
+    // Alocando dinamicamente para os países
+    Pais *paises = (Pais *)malloc(numPaises * sizeof(Pais));
+
+    // Cadastrando os países
+    for (int i = 0; i < numPaises; i++) {
+        paises[i] = cadastroDePais();
+    }
+    
     // Sugestão: Defina variáveis separadas para cada atributo da cidade.
     // Exemplos de atributos: código da cidade, nome, população, área, PIB, número de pontos turísticos.
     
