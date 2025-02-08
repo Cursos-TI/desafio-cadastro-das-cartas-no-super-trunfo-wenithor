@@ -10,6 +10,7 @@
 
 typedef struct {
     char name[50];                                  // Nome das cidades
+    char nameCodCarta[50];                          // Código da carta
     int populacao;                                  // População
     int area;                                       // Área
     int pib;                                        // PIB
@@ -18,12 +19,12 @@ typedef struct {
 
 typedef struct {
     char name[50];                                   // Nome do estado
-    Cidade *cidades;                                  // Ponteiro para a cidades
+    Cidade *cidades;                                 // Ponteiro para a cidades
 } Estado;                                            // Aqui contem tanto o nome do estado quanto as cidades relacionadas a esse estado.
 
 typedef struct {
     char name[50];                                  // Nome do País
-    Estado *estados;                                 // Ponteiro para os estados (alocação dinâmica) ou seja "Estado" é o tipo e "estado" é a variavel.
+    Estado *estados;                                // Ponteiro para os estados (alocação dinâmica) ou seja "Estado" é o tipo e "estado" é a variavel.
 } Pais;                                             // Nesse formato a estrutura contem tanto o nome do país quanto aponto para os estados relacionado a esse país. Ficando mais facil gerenciar.
 
 //Remover o /n que causa o erro quando dou enter pulando a linha de código
@@ -58,6 +59,10 @@ Pais cadastroDePais(){                            // Não requer parametros pois
             fgets(pais.estados[i].cidades[j].name, sizeof(pais.estados[i].cidades[j].name), stdin);
             removerOEnter(pais.estados[i].cidades[j].name);
 
+            // Adicionar o código da carta
+            sprintf(pais.estados[i].cidades[j].nameCodCarta, "%s%d%d", pais.estados[i].name, i, j + 1);
+            printf("\nCódigo da carta: %s", pais.estados[i].cidades[j].nameCodCarta); 
+
             printf("\nDigite o número populacional pertencente da Cidade %s do Estado %s: ", pais.estados[i].cidades[j].name, pais.estados[i].name);
             scanf("%d", &pais.estados[i].cidades[j].populacao); //, sizeof(pais.estados[i].cidades[j].populacao), stdin);
             getchar();
@@ -88,9 +93,10 @@ void exibirDados(Pais *paisess, int numPaises){
             printf("  Estado: %s\n", paisess[i].estados[j].name);
             for (int k; k < 4; k++){
                 printf("    Cidade: %s\n", paisess[i].estados[j].cidades[k].name);
+                printf("       Código da carta: %s\n", paisess[i].estados[j].cidades[k].nameCodCarta);
                 printf("       População: %d\n", paisess[i].estados[j].cidades[k].populacao);
-                printf("       Área: %d\n", paisess[i].estados[j].cidades[k].area);
-                printf("       PIB: %d\n", paisess[i].estados[j].cidades[k].pib);
+                printf("       Área: %d km²\n", paisess[i].estados[j].cidades[k].area);
+                printf("       PIB: %d bilhões de reais\n", paisess[i].estados[j].cidades[k].pib);
                 printf("       Número de pontos turísticos: %d\n", paisess[i].estados[j].cidades[k].numeroPontoTuristico);
             }
         }
