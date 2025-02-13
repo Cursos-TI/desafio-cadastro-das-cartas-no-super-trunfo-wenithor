@@ -6,7 +6,6 @@
 // Tema 1 - Cadastro das Cartas
 // Este código inicial serve como base para o desenvolvimento do sistema de cadastro de cartas de cidades.
 // Siga os comentários para implementar cada parte do desafio.
-//Teste larissa
 
 typedef struct {
     char name[50];                                  // Nome das cidades
@@ -15,6 +14,8 @@ typedef struct {
     int area;                                       // Área
     int pib;                                        // PIB
     int numeroPontoTuristico;                       // Número de pontos turísticos. 
+    float pibPerCapita;                             // PIB per cápita
+    float densidadePolulacional;                    // Densidade Populacional
 } Cidade;
 
 typedef struct {
@@ -98,9 +99,34 @@ void exibirDados(Pais *paisess, int numPaises){
                 printf("       Área: %d km²\n", paisess[i].estados[j].cidades[k].area);
                 printf("       PIB: %d bilhões de reais\n", paisess[i].estados[j].cidades[k].pib);
                 printf("       Número de pontos turísticos: %d\n", paisess[i].estados[j].cidades[k].numeroPontoTuristico);
+                printf("       PIB per capita: %.2f\n", paisess[i].estados[j].cidades[k].pibPerCapita);
+                printf("       Densidade populacional: %.2f hab/km²\n", paisess[i].estados[j].cidades[k].densidadePolulacional);
             }
         }
     }
+}
+
+
+void calcPiBeDensidade(Pais *paises, int numPaises) {
+    for (int i=0; i < numPaises; i++){
+        for (int j=0; j < 8; j++){
+            for (int k=0; k < 4; k++){
+                Cidade *cidade = &paises[i].estados[j].cidades[k]; // Ponteiro para facilitar
+
+                if (cidade->populacao > 0) {
+                    cidade->pibPerCapita = (float)cidade->pib / cidade->populacao;
+                } else {
+                    cidade->pibPerCapita = 0; // Evitar divisão por zero
+                }
+
+                if (cidade->area > 0) {
+                    cidade->densidadePolulacional = (float)cidade->populacao / cidade->area;
+                } else {
+                    cidade->densidadePolulacional = 0; // Evitar divisão por zero
+                }
+            }
+        }
+    }  
 }
 
 
@@ -119,6 +145,9 @@ int main() {
     for (int i = 0; i < numPaises; i++) {
         paises[i] = cadastroDePais();
     }
+
+    // Calcular o PIB e densidade populacional
+    calcPiBeDensidade(paises, numPaises);
 
     // Exibir os dados dos países
     exibirDados(paises, numPaises);
